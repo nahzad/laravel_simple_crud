@@ -1,10 +1,10 @@
-@extends('welcome')
+@extends('layouts.master')
 
 @section('title', 'Blog list')
 
-@include('inc.topNavbar')
 
-@section('content')
+
+@section('main_content')
 
     <div class="col-md-12">
 
@@ -12,7 +12,7 @@
 
             <div class="card-header">
                 <h4>Blog List
-                    <a href="{{ route('blogs.create') }}" class="btn btn-primary float-end">Add Blog</a>
+                    <a href="{{ route('blogs.create') }}" class="btn btn-primary open_modal float-end" selector="blogCreate" modal_title="Blog Create" modal_type="Create" modal_size="large" class_name = "btn btn-secondary disable-on-click">Add Blog</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -43,13 +43,17 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('blogs.edit', $blog->id) }}" selector="blogUpdate"  class="btn btn-warning btn-sm open-modal" modal-title="Blog Edit" modal-type="Update" class-name="btn btn-warning disable-on-click" modal-size="large">Edit</a>
+                                        <a href="{{ route('blogs.edit', $blog->id) }}" selector="blogUpdate"  class="btn btn-success btn-sm open_modal" modal_title="Blog Edit" modal_type="Update" class_name="btn btn-secondary disable-on-click" modal_size="large">Edit</a>
 
-                                        <a href="{{ route('blogs.show',$blog->id) }}" selector="blogShow" class="btn btn-success btn-sm open-modal"
-                                            modal-title="Blog Details" modal-type="Show" className="btn btn-info disable-on-click" modal-size="large">Show</a>
+                                        <a href="{{ route('blogs.show',$blog->id) }}" selector="blogShow" class="btn btn-warning btn-sm open_modal"
+                                            modal_title="Blog Details" modal_type="Show" class_name="btn btn-secondary disable-on-click" modal_size="large">Show</a>
 
-                                        <a href="{{ route('blogs.destroy',$blog->id) }}"
-                                            class="btn btn-danger btn-sm serviceDeleteBtn" delete_link="{{ route('blogs.destroy',$blog->id) }}">Delete</a>
+                                            <a class="deleteAction" delete_Link="{{ route('blogs.destroy',$blog->id) }}" href="" style="display:inline-block">
+                                                <form  action="{{ route('blogs.destroy',$blog->id) }}" method="POST">
+                                                    @csrf
+                                                    <button class="btn btn-danger btn-sm ">Delete</button>
+                                                </form>
+                                            </a>
 
                                     </td>
                                 </tr>
@@ -64,6 +68,4 @@
     </div>
 @endsection
 
-{{-- @push('scripts')
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
-@endpush --}}
+

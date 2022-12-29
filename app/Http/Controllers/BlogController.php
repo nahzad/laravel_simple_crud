@@ -51,14 +51,16 @@ class BlogController extends Controller
                 'description' => $request->description,
                 'status'      => $request->status
             ]);
-            Toastr::success('Blog Added Successfully', 'Success', ['positionClass' => 'toast-top-center']);
+
+            Toastr::success('Blog Added Successfully', 'Success');
         } else {
             $errMsgs = $validator->messages();
             foreach ($errMsgs->all() as $msg) {
                 Toastr::error($msg, 'Required');
             }
+            return redirect()->route('blogs.create');
         }
-        return redirect()->route('blogs.create');
+        return redirect()->route('blogs.index');
     }
 
     /**
@@ -108,12 +110,13 @@ class BlogController extends Controller
                 'description' => $request->description,
                 'status'      => $request->status
             ]);
-            Toastr::success('Blog Updated Successfully', 'Success', ['positionClass' => 'toast-top-right']);
+            Toastr::success('Blog Updated Successfully', 'Success');
         } else {
             $errMsgs = $validator->messages();
             foreach ($errMsgs->all() as $msg) {
                 Toastr::error($msg, 'Required');
             }
+            return redirect()->route('blogs.edit');
         }
         return redirect()->route('blogs.index');
     }
@@ -128,6 +131,7 @@ class BlogController extends Controller
     {
         $blog_delete = Blog::find($id);
         $blog_delete->delete();
-        return response()->json(['status' => 'Blog Items deleted successfully']);
+        return redirect()->route('blogs.index');
+        Toastr::success('Blogs Data deleted successfully', 'Success');
     }
 }

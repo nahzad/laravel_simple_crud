@@ -1,21 +1,14 @@
-@extends('welcome')
 
-@section('title', 'Blog Update')
 
-@section('content')
-
-    <div class="col-md-12">
+    <div class="col-md-12 mx-auto">
 
         <div class="card">
-            <div class="card-header">
+            {{-- <div class="card-header">
                 <h4>Blog Update
                     <a href="{{ route('blogs.index') }}" class="btn btn-secondary float-end" selector="blogCreate">Back</a>
                 </h4>
-            </div>
+            </div> --}}
             <div class="card-body">
-                <h5>Update Blog :</h5>
-
-               {{--  <form action="{{ route('blog.update',$blogEdit->id) }}" method="POST"> --}}
                     <form action="{{ route('blogs.update',$blogEdit->id) }}" method="POST" id="blogUpdate">
                     @csrf
                     @method('PUT')
@@ -38,15 +31,11 @@
                             <option @if ($blogEdit->status == 1) selected @endif value="1">Active</option>
                             <option @if ($blogEdit->status == 0) selected @endif value="0" >InActive</option>
                         </select>
-                        {{-- @error('status')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror --}}
+
                     </div>
-                    <div class="form-group mb-3">
-                        <button type="submit" class="btn btn-primary float-end">Save</button>
-                    </div>
+
                 </form>
             </div>
         </div>
     </div>
-@endsection
+

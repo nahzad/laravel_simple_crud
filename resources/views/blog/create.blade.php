@@ -1,19 +1,15 @@
-@extends('welcome')
 
-@section('title', 'Blog Create')
 
-@section('content')
-
-    <div class="col-md-12">
+    <div class="col-md-12 mx-auto">
 
         <div class="card">
-            <div class="card-header">
+           {{--  <div class="card-header">
                 <h4>Blog Create
                     <a href="{{ route('blogs.index') }}" class="btn btn-secondary float-end" selector="blogCreate">Back</a>
                 </h4>
-            </div>
+            </div> --}}
             <div class="card-body">
-                <h5>Add Blog :</h5>
+
 
                 <form action="{{ route('blogs.store') }}" method="POST">
                     @csrf
@@ -44,11 +40,13 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group mb-3">
+                   {{--  <div class="form-group mb-3">
                         <button type="submit" class="btn btn-primary float-end">Save</button>
-                    </div>
+                    </div> --}}
                 </form>
             </div>
         </div>
     </div>
-@endsection
+
+
+

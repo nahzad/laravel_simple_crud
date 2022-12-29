@@ -1,99 +1,81 @@
-/*
-    Sweetalert Function Start
-*/
+// SWEETALERT START
+$(document).ready(function () {
+    $('.deleteAction').click(function (e) {
+        e.preventDefault();
 
-$('.serviceDeleteBtn').click(function (e) {
-    e.preventDefault();
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    //let delete_id = $(this).closest("tr").find('.service_delete_id').val();
-    //alert(delete_id);
-    //let delete_url = $(this).attr("href");
-    //alert(delete_url);
-    let delete_link = $(this).attr("delete_link");
-    //alert(delete_link);
-
-    swal({
-        title: "Are you sure?",
-        text: "Once deleted, you will not be able to recover this Data",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    })
-        .then((willDelete) => {
-            if (willDelete) {
-
-                let data = {
-                    "_token": $('input[name = "csrf-token"]').val(),
-                    //"id" : delete_id
-                }
-
+        let delete_link = $(this).attr('delete_link');
+        let csrf = $(this).find("input[name='_token']").val();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
                 $.ajax({
-                    type: "DELETE",
-                    // url: "blog/delete/"+delete_id,
                     url: delete_link,
-                    data: "data",
-
+                    type: "POST",
+                    data: { "_token": csrf, '_method': 'DELETE' },
                     success: function (response) {
-                        swal(response.status, {
-                            icon: "success",
-                        })
-                            .then((result) => {
-                                location.reload();
-                            });
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "This data has been deleted!",
+                            confirmButtonColor: "#66BB6A",
+                            type: "success"
+                        }).then(function () {
+                            location.reload();
+                        });
                     }
                 });
-
             }
-        });
+        })
+    });
 });
 
-/*
-   Sweetalert Function End
-*/
-/*
-$(document).on("click", ".open-modal", function (e) {
+
+$(document).on("click", ".open_modal", function (e) {
     e.preventDefault();
-    let modalTitle = $(this).attr('#modal-title');
-    let modalType = $(this).attr('#modal-type');
-    let modalSize = $(this).attr('#modal-size');
-    let className = $(this).attr('#class-name');
-    if (modalType == 'create') {
+
+    let modalTitle = $(this).attr('modal_title');
+    let modalType = $(this).attr('modal_type');
+    let modalSize = $(this).attr('modal_size');
+    let className = $(this).attr('class_name');
+
+    if (modalType == 'Create') {
         successButton = 'Save';
-    } else if (modalType == 'update') {
+    } else if (modalType == 'Update') {
         successButton = 'Update';
     }
 
-    let selector = $(this).attr("selector");
-    let url = $(this).attr('href');
+    let divId = $(this).attr("#selector");
+    let modal_url = $(this).attr('href');
 
 
 
     $.ajax({
         type: "GET",
-        url: url,
+        url: modal_url,
         dataType: "html",
         success: function (response) {
             if (modalType != 'Show') {
                 bootbox.dialog({
                     title: modalTitle,
-                    message: `<div  id="${selector}"></div>`,
+                    message: `<div  id="${divId}"></div>`,
                     size: modalSize,
                     buttons: {
-                        cancel: {
-                            label: "Cancel",
+                        close: {
+                            label: "Close",
                             className: className,
                         },
 
-                        ok: {
-                            label: "OK",
-                            className: className,
+                        success: {
+                            label: successButton,
+                            className: 'btn btn-success',
                             callback: function () {
-                                $('#' + selector + 'form').submit();
+                                $('#' + divId + ' form').submit();
                                 return false;
                             },
                         },
@@ -102,7 +84,7 @@ $(document).on("click", ".open-modal", function (e) {
             } else {
                 bootbox.dialog({
                     title: modalTitle,
-                    message: `<div  id="${selector}"></div>`,
+                    message: `<div  id="${divId}"></div>`,
                     size: modalSize,
                     buttons: {
                         cancel: {
@@ -113,9 +95,9 @@ $(document).on("click", ".open-modal", function (e) {
                 });
             }
 
-            $("#" + selector).html(response);
-            //$('#submit_btn').removeAttr('disabled', 'disabled');
+            $("#" + divId).html(response);
+
         }
     });
-}); */
+});
 

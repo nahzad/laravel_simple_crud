@@ -1,10 +1,10 @@
-@extends('welcome')
+@extends('layouts.master')
 
 @section('title','Blog list')
 
-@include('inc.topNavbar')
 
-@section('content')
+
+@section('main_content')
 
 
         <div class="col-md-12">
